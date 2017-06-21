@@ -5,6 +5,7 @@ function generateButtons(){
 	for (var i = 0; i < topics.length; i++){
 		$('#button-holder').append("<button class='topic-buttons' id='" + topics[i] + "'>" + topics[i] + "</button>");
 	}
+	console.log($('#button-holder'));
 }
 
 var apiKey = "e4abc46fc4cc480fa6bc9fd01ad3061b";
@@ -41,7 +42,8 @@ function getStills(searchTerm){
 	      	$('#image-holder').append("<img class='gif-image' id='display" + x + "' src='" + imageLink + "'><p class='rating'>" + imageRating + "</p>");
 	      }
 
-	      $(".gif-image").click(function() {
+	    $(".gif-image").click(function() {
+			console.log("Click event running")
 			var localID = this.id;
 			var localIndex = localID.split("y")[1];
 			if (play){
@@ -51,14 +53,16 @@ function getStills(searchTerm){
 				turnAnimated(localIndex);
 				play = true;
 			};
+		});
 			
-		  });
+		  
 	    });
 };
 
 
 $( document ).ready(function() {
-	$( ".topic-buttons" ).click(function() {
+//	$( ".topic-buttons" ).click(function() {
+	$("#button-holder").on("click", "button.topic-buttons", function(){
 		console.log("Click event firing");
 	    console.log(this);
 		var buttonTerm = this.id;
@@ -73,7 +77,17 @@ $( document ).ready(function() {
 		var newTerm = $('#search-field').val();
 		topics.push(newTerm);
 		console.log(topics)
-		getStills(newTerm);
+	//	getStills(newTerm);
 		generateButtons();
 	});
 });
+
+/*
+function checkWorking(){
+	if (document.readyState === 'complete') {
+  		console.log("Document ready")
+	} else {
+		console.log("Document not ready")
+	}
+}
+*/
