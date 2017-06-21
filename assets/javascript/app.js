@@ -1,6 +1,7 @@
-var topics = ["Jay Z", "Beyonnce", "Kanye West", "2 Chainz", "J Cole", "Rhianna", "Drake", "Ed Sheeran", "Taylor Swift", "Justin Beiber", "Justin Timberlak", "Darth Vader"];
+var topics = ["Tupac", "Jay Z", "Beyonce", "Kanye West", "2 Chainz", "J Cole", "Rhianna", "Drake", "Ed Sheeran", "Taylor Swift", "Justin Beiber", "Justin Timberlak", "Darth Vader"];
 
 function generateButtons(){
+	$('#button-holder').empty();
 	for (var i = 0; i < topics.length; i++){
 		$('#button-holder').append("<button class='topic-buttons' id='" + topics[i] + "'>" + topics[i] + "</button>");
 	}
@@ -30,6 +31,7 @@ function getStills(searchTerm){
 	      url: queryURL,
 	      method: "GET"
 	    }).done(function(info) {
+	    	console.log(info.data[1]);
 	      for (var x = 0; x < numberDisplayed; x++){
 	      	var imageLink = info.data[x].images.fixed_height_still.url;
 	      	stillImages.push(imageLink);
@@ -48,7 +50,7 @@ function getStills(searchTerm){
 			} else {
 				turnAnimated(localIndex);
 				play = true;
-			}
+			};
 			
 		  });
 	    });
@@ -57,6 +59,8 @@ function getStills(searchTerm){
 
 $( document ).ready(function() {
 	$( ".topic-buttons" ).click(function() {
+		console.log("Click event firing");
+	    console.log(this);
 		var buttonTerm = this.id;
 		$('#image-holder').empty();
 		stillImages = [];
@@ -64,5 +68,12 @@ $( document ).ready(function() {
 		getStills(buttonTerm);
 	});
 
-
+	$( "#search-button" ).click(function() {
+		console.log("Search function run")
+		var newTerm = $('#search-field').val();
+		topics.push(newTerm);
+		console.log(topics)
+		getStills(newTerm);
+		generateButtons();
+	});
 });
