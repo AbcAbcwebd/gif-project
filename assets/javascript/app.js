@@ -15,7 +15,10 @@ var play = false;
 var stillImages = [];
 var animatedImages = [];
 
+// These variables help power scroll funtionality. 
 var scrollCount=0;
+var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
 function turnAnimated(imageIndex){
 	$('#display' + imageIndex).attr("src",animatedImages[imageIndex]);
@@ -39,7 +42,7 @@ function getStills(searchTerm){
 	      	var animLink = info.data[x].images.fixed_height.url;
 	      	animatedImages.push(animLink);
 	      	var imageRating = info.data[x].rating;
-	      	$('#image-holder').append("<img class='gif-image' id='display" + x + "' src='" + imageLink + "'><p class='rating'>" + imageRating + "</p>");
+	      	$('#image-holder').append("<div id='cont" + x +"'><img class='gif-image' id='display" + x + "' src='" + imageLink + "'><p class='rating'>" + imageRating + "</p></div>");
 	      }
 
 	    $(".gif-image").click(function() {
@@ -73,7 +76,8 @@ $( document ).ready(function() {
 		var newTerm = $('#search-field').val();
 		if (newTerm.length > 1){
 			topics.push(newTerm);
-			generateButtons();	
+			generateButtons();
+			positionGIFs();	
 		};
 		$('#search-field').val("");
 	});
@@ -83,6 +87,28 @@ $( document ).ready(function() {
 	};
 
 });
+
+function positionGIFs(){
+	console.log("Running");
+	for (var z = 0; z < numberDisplayed; z++){
+		var localContainer = document.getElementById('cont' + z); 
+		var localWidth = localContainer.clientWidth;
+		var leftPosition = (width/2) - (localWidth/2);
+
+		var localHeight = localContainer.clientHeight;
+		var topPosition = (height/2) - (localHeight/2);
+
+		leftPosition = leftPosition - (z * localWidth);
+		topPosition = topPosition - (z * (localHeight * 1.25));
+
+		console.log(leftPosition);
+
+		document.getElementById('cont' + z).style.position = "relative";
+		document.getElementById('cont' + z).style.left = leftPosition + "px";
+	//	$('cont' + z).css("top", topPosition);
+		console.log(document.getElementById('cont' + z));
+	}
+}
 
 
 

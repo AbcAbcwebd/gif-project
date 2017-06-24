@@ -17,6 +17,9 @@ button {
 
 p {
 	font-family: 'Bahiana', cursive;
+	font-size: 25px;
+	color: white;
+	margin-left: 20px;
 }
 
 #button-holder {
@@ -45,10 +48,6 @@ p {
 
 .gif-image {
 	margin-top: 20px;
+	position: relative;
+	margin-right: 10px;
 };
-
-#image-holder {
-	height: 10px;
-	overflow: scroll;
-	background: pink;
-}
