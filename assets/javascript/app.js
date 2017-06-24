@@ -1,11 +1,10 @@
-var topics = ["Tupac", "Jay Z", "Beyonce", "Kanye West", "2 Chainz", "J Cole", "Rhianna", "Drake", "Ed Sheeran", "Taylor Swift", "Justin Beiber", "Justin Timberlak", "Darth Vader"];
+var topics = ["Tupac", "Jay Z", "Beyonce", "Kanye West", "2 Chainz", "J Cole", "Rhianna", "Drake", "Ed Sheeran", "Taylor Swift", "Justin Bieber", "Justin Timberlake", "Darth Vader"];
 
 function generateButtons(){
 	$('#button-holder').empty();
 	for (var i = 0; i < topics.length; i++){
 		$('#button-holder').append("<button class='topic-buttons' id='" + topics[i] + "'>" + topics[i] + "</button>");
 	}
-	console.log($('#button-holder'));
 }
 
 var apiKey = "e4abc46fc4cc480fa6bc9fd01ad3061b";
@@ -15,6 +14,8 @@ var play = false;
 // These arrays will store image links
 var stillImages = [];
 var animatedImages = [];
+
+var scrollCount=0;
 
 function turnAnimated(imageIndex){
 	$('#display' + imageIndex).attr("src",animatedImages[imageIndex]);
@@ -32,7 +33,6 @@ function getStills(searchTerm){
 	      url: queryURL,
 	      method: "GET"
 	    }).done(function(info) {
-	    	console.log(info.data[1]);
 	      for (var x = 0; x < numberDisplayed; x++){
 	      	var imageLink = info.data[x].images.fixed_height_still.url;
 	      	stillImages.push(imageLink);
@@ -43,7 +43,6 @@ function getStills(searchTerm){
 	      }
 
 	    $(".gif-image").click(function() {
-			console.log("Click event running")
 			var localID = this.id;
 			var localIndex = localID.split("y")[1];
 			if (play){
@@ -63,8 +62,6 @@ function getStills(searchTerm){
 $( document ).ready(function() {
 //	$( ".topic-buttons" ).click(function() {
 	$("#button-holder").on("click", "button.topic-buttons", function(){
-		console.log("Click event firing");
-	    console.log(this);
 		var buttonTerm = this.id;
 		$('#image-holder').empty();
 		stillImages = [];
@@ -73,21 +70,19 @@ $( document ).ready(function() {
 	});
 
 	$( "#search-button" ).click(function() {
-		console.log("Search function run")
 		var newTerm = $('#search-field').val();
-		topics.push(newTerm);
-		console.log(topics)
-	//	getStills(newTerm);
-		generateButtons();
+		if (newTerm.length > 1){
+			topics.push(newTerm);
+			generateButtons();	
+		};
+		$('#search-field').val("");
 	});
+
+	window.onscroll = function() {
+	        scrollCount++;
+	};
+
 });
 
-/*
-function checkWorking(){
-	if (document.readyState === 'complete') {
-  		console.log("Document ready")
-	} else {
-		console.log("Document not ready")
-	}
-}
-*/
+
+

@@ -1,0 +1,54 @@
+
+h1 {
+	font-family: 'Frijole', cursive;
+	font-size: 50px;
+	text-align: center;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	/*background-image: url('../images/red-white-pattern.jpg');*/
+}
+
+button {
+	font-family: 'Lobster Two', cursive;
+	margin-top: 5px;
+	font-size: 14px;
+	margin-right: 5px;
+}
+
+p {
+	font-family: 'Bahiana', cursive;
+}
+
+#button-holder {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background: #d1d1d1;
+	background: -webkit-linear-gradient(#d1d1d1, #a8a8a8); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#d1d1d1, #a8a8a8); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#d1d1d1, #a8a8a8); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#d1d1d1, #a8a8a8); /* Standard syntax */
+    padding-left: 20px;
+}
+
+#top-half {
+	background: white;
+	padding-bottom: 10px;
+}
+
+#full-file {
+	background-image: url('../images/bricks.jpg');
+	width: 100%;
+	height: 1000px;
+	position: fixed;
+	z-index: -1;
+}
+
+.gif-image {
+	margin-top: 20px;
+};
+
+#image-holder {
+	height: 10px;
+	overflow: scroll;
+	background: pink;
+}

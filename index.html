@@ -5,17 +5,24 @@
 	<meta charset="UTF-8">
 	<title>Gify Site</title>
 	<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="assets/javascript/app.js"></script>
 	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Bahiana|Frijole|Lobster+Two" rel="stylesheet">
 </head>
 <body>
-	<div id="button-holder"></div>
-	<div id="search-box"><p>Add a new musician: </p><input type=text id="search-field"><button id="search-button">Search</button></div>
+	<div id='full-file'></div>
+		<div id='top-half'>
+			<h1>Musicians</h1>
+			<div id="button-holder"></div>
+			<div id="search-box"><p>Add a new musician: </p><input type=text id="search-field"><button id="search-button">Search</button></div>
+			<script type="text/javascript">
+			generateButtons();
+			</script>
+		</div>
+	
 	<div id="image-holder"></div>
 
-	<script type="text/javascript">
-		generateButtons();
-	</script>
 </body>
 </html>
