@@ -19,6 +19,9 @@ var animatedImages = [];
 var scrollCount=0;
 var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+var leftPositionArray = [];
+var movementDirection = [];
+var localWidth = 350;
 
 function turnAnimated(imageIndex){
 	$('#display' + imageIndex).attr("src",animatedImages[imageIndex]);
@@ -70,6 +73,7 @@ $( document ).ready(function() {
 		stillImages = [];
 		animatedImages = [];
 		getStills(buttonTerm);
+		setTimeout(positionGIFs, 500);
 	});
 
 	$( "#search-button" ).click(function() {
@@ -77,38 +81,98 @@ $( document ).ready(function() {
 		if (newTerm.length > 1){
 			topics.push(newTerm);
 			generateButtons();
-			positionGIFs();	
 		};
 		$('#search-field').val("");
 	});
 
 	window.onscroll = function() {
-	        scrollCount++;
+	    scrollCount++;
+	    updatePositioning();
 	};
 
 });
 
+// This places the GIFs in a staggered pattern on the page, based on screen width.
 function positionGIFs(){
-	console.log("Running");
+	var toMove = "Right";
+	var leftPosition;
 	for (var z = 0; z < numberDisplayed; z++){
 		var localContainer = document.getElementById('cont' + z); 
-		var localWidth = localContainer.clientWidth;
-		var leftPosition = (width/2) - (localWidth/2);
+		console.log("Local width: " + localWidth);
+		console.log("Window width: " + width);
+		if (z === 0){
+			leftPosition = (width/2) - (localWidth*2);
+		};
 
 		var localHeight = localContainer.clientHeight;
-		var topPosition = (height/2) - (localHeight/2);
+//		var topPosition = (height/2) - (localHeight/2);
+		if (toMove === "Right" && leftPosition < (width - (2 * localWidth))){
+			leftPosition = leftPosition + localWidth;
+		} else if (toMove === "Right"){
+			toMove = "Left";
+			leftPosition = leftPosition - localWidth;
+		} else if (toMove === "Left" && leftPosition > localWidth) {
+			leftPosition = leftPosition - localWidth;
+		} else if (toMove === "Left") {
+			toMove = "Right";
+			leftPosition = leftPosition + localWidth;
+		};
 
-		leftPosition = leftPosition - (z * localWidth);
-		topPosition = topPosition - (z * (localHeight * 1.25));
+		// Ensure GIFs don't fall off page
+		if (leftPosition < 0){
+			leftPosition = leftPosition + Math.abs(leftPosition);
+		} else if (leftPosition > width - localWidth) {
+			leftPosition = width - localWidth;
+		};
+		console.log("Position: " + leftPosition);
+		
 
-		console.log(leftPosition);
+		leftPositionArray.push(leftPosition);
+
+		// This helps keep track of which direction the gif will move in. 
+		movementDirection.push(toMove);
+//		topPosition = topPosition - (z * (localHeight * 1.25));
 
 		document.getElementById('cont' + z).style.position = "relative";
 		document.getElementById('cont' + z).style.left = leftPosition + "px";
 	//	$('cont' + z).css("top", topPosition);
-		console.log(document.getElementById('cont' + z));
 	}
 }
 
+function updatePositioning() {
+	for (var a = 0; a < numberDisplayed; a++){
+		var localContainer = document.getElementById('cont' + a); 
+		var newLeftPosition;
 
+		if (movementDirection[a] === "Right"){
+			if (leftPositionArray[a] < width - localWidth){
+				newLeftPosition = leftPositionArray[a] + (width / 180);
+			} else {
+				movementDirection[a] = "Left";
+				newLeftPosition = leftPositionArray[a] - (width / 180);
+			}
+
+		} else if (movementDirection[a] === "Left"){
+			if (leftPositionArray[a] > 0){
+				newLeftPosition = leftPositionArray[a] - (width / 180);
+			} else {
+				movementDirection[a] = "Right";
+				newLeftPosition = leftPositionArray[a] + (width / 180);
+			}
+		};
+
+/*
+		// Ensure GIFs don't fall off page
+		if (newLeftPosition < 0){
+			newLeftPosition = newLeftPosition + Math.abs(newLeftPosition);
+		} else if (newLeftPosition > width - localWidth) {
+			newLeftPosition = width - localWidth;
+		};
+*/
+
+		leftPositionArray[a] = newLeftPosition;
+		document.getElementById('cont' + a).style.left = newLeftPosition + "px";
+
+	};
+}
 
