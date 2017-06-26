@@ -31,6 +31,7 @@ function turnStill(imageIndex){
 	$('#display' + imageIndex).attr("src",stillImages[imageIndex]);
 }
 
+// This sets up images when a button is clicked. 
 function getStills(searchTerm){
 
 	var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + searchTerm + "&api_key=" + apiKey + "&limit=" + numberDisplayed;
@@ -61,7 +62,7 @@ function getStills(searchTerm){
 		});
 			
 		  
-	    });
+	});
 };
 
 
@@ -86,7 +87,6 @@ $( document ).ready(function() {
 	});
 
 	window.onscroll = function() {
-	    scrollCount++;
 	    updatePositioning();
 	};
 
@@ -98,14 +98,12 @@ function positionGIFs(){
 	var leftPosition;
 	for (var z = 0; z < numberDisplayed; z++){
 		var localContainer = document.getElementById('cont' + z); 
-		console.log("Local width: " + localWidth);
-		console.log("Window width: " + width);
 		if (z === 0){
 			leftPosition = (width/2) - (localWidth*2);
 		};
 
+		// Calculates new image positioning as well as direction for future movement.
 		var localHeight = localContainer.clientHeight;
-//		var topPosition = (height/2) - (localHeight/2);
 		if (toMove === "Right" && leftPosition < (width - (2 * localWidth))){
 			leftPosition = leftPosition + localWidth;
 		} else if (toMove === "Right"){
@@ -118,27 +116,25 @@ function positionGIFs(){
 			leftPosition = leftPosition + localWidth;
 		};
 
-		// Ensure GIFs don't fall off page
+		// Ensure GIFs don't fall off page (Redundancy. Could eventually be removed to boost performance.)
 		if (leftPosition < 0){
 			leftPosition = leftPosition + Math.abs(leftPosition);
 		} else if (leftPosition > width - localWidth) {
 			leftPosition = width - localWidth;
 		};
-		console.log("Position: " + leftPosition);
 		
 
 		leftPositionArray.push(leftPosition);
 
 		// This helps keep track of which direction the gif will move in. 
 		movementDirection.push(toMove);
-//		topPosition = topPosition - (z * (localHeight * 1.25));
 
 		document.getElementById('cont' + z).style.position = "relative";
 		document.getElementById('cont' + z).style.left = leftPosition + "px";
-	//	$('cont' + z).css("top", topPosition);
 	}
 }
 
+// Updates position of images. Executed when user sccrolls. 
 function updatePositioning() {
 	for (var a = 0; a < numberDisplayed; a++){
 		var localContainer = document.getElementById('cont' + a); 
@@ -160,15 +156,6 @@ function updatePositioning() {
 				newLeftPosition = leftPositionArray[a] + (width / 180);
 			}
 		};
-
-/*
-		// Ensure GIFs don't fall off page
-		if (newLeftPosition < 0){
-			newLeftPosition = newLeftPosition + Math.abs(newLeftPosition);
-		} else if (newLeftPosition > width - localWidth) {
-			newLeftPosition = width - localWidth;
-		};
-*/
 
 		leftPositionArray[a] = newLeftPosition;
 		document.getElementById('cont' + a).style.left = newLeftPosition + "px";
