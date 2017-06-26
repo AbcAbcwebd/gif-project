@@ -33,7 +33,7 @@ function turnStill(imageIndex){
 
 function getStills(searchTerm){
 
-	var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + searchTerm + "&api_key=" + apiKey + "&limit=" + numberDisplayed;
+	var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + searchTerm + "&api_key=" + apiKey + "&limit=" + numberDisplayed;
 
 	$.ajax({
 	      url: queryURL,
